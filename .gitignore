@@ -1,0 +1,20 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Configurações locais com segredos
+.env
+*.env.local
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
