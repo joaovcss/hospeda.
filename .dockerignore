@@ -1,0 +1,11 @@
+.env
+*.env.local
+.git
+.claude
+.idea
+.vscode
+target
+frontend
+bruno
+docs
+requests.http

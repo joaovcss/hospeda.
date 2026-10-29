@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: hotelaria-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      # Conexão direta (não "pooled") do Neon, no formato JDBC:
+      # jdbc:postgresql://ep-xxxx.sa-east-1.aws.neon.tech/neondb?sslmode=require
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      # Base64 com 32+ bytes. Gere com: openssl rand -base64 48
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRATION_MINUTES
+        value: "60"
+      # URL do frontend na Vercel, ex.: https://hospeda.vercel.app
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: HOTEL_TIME_ZONE
+        value: America/Sao_Paulo
+      - key: SWAGGER_ENABLED
+        value: "false"
+      - key: APP_BOOTSTRAP_ADMIN_ENABLED
+        value: "true"
+      - key: APP_BOOTSTRAP_ADMIN_NAME
+        value: Administrador
+      - key: APP_BOOTSTRAP_ADMIN_EMAIL
+        sync: false
+      - key: APP_BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
