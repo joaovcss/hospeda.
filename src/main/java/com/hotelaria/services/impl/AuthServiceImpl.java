@@ -1,9 +1,11 @@
 package com.hotelaria.services.impl;
 
 import com.hotelaria.dtos.request.ChangePasswordRequest;
+import com.hotelaria.dtos.request.GuestCreateRequest;
 import com.hotelaria.dtos.request.LoginRequest;
 import com.hotelaria.dtos.response.AuthenticatedUserResponse;
 import com.hotelaria.dtos.response.LoginResponse;
+import com.hotelaria.services.GuestService;
 import com.hotelaria.exceptions.BusinessRuleException;
 import com.hotelaria.exceptions.InvalidCredentialsException;
 import com.hotelaria.exceptions.ResourceNotFoundException;
@@ -36,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticatedUserLoader userLoader;
     private final CurrentUserProvider currentUserProvider;
     private final UserMapper userMapper;
+    private final GuestService guestService;
 
     /**
      * Hash usado quando o login não existe, para que a resposta leve o mesmo tempo
@@ -46,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthServiceImpl(UserRepository userRepository, GuestRepository guestRepository,
                            PasswordEncoder passwordEncoder, JwtService jwtService,
                            AuthenticatedUserLoader userLoader, CurrentUserProvider currentUserProvider,
-                           UserMapper userMapper) {
+                           UserMapper userMapper, GuestService guestService) {
         this.userRepository = userRepository;
         this.guestRepository = guestRepository;
         this.passwordEncoder = passwordEncoder;
@@ -54,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
         this.userLoader = userLoader;
         this.currentUserProvider = currentUserProvider;
         this.userMapper = userMapper;
+        this.guestService = guestService;
         this.dummyHash = passwordEncoder.encode(UUID.randomUUID().toString());
     }
 
@@ -71,6 +75,23 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidCredentialsException();
         }
 
+        AuthenticatedUser principal = userLoader.toPrincipal(user);
+        String token = jwtService.generateToken(principal);
+        return new LoginResponse(token, "Bearer", jwtService.getExpirationSeconds(),
+                userMapper.toAuthenticatedResponse(user, principal.getGuestId()));
+    }
+
+    /**
+     * Auto-cadastro público de hóspede: cria as credenciais (ROLE_GUEST) e já devolve o token,
+     * deixando o novo hóspede autenticado logo após o cadastro.
+     */
+    @Override
+    @Transactional
+    public LoginResponse register(GuestCreateRequest request) {
+        guestService.create(request);
+        String email = request.email().trim().toLowerCase(Locale.ROOT);
+        User user = userRepository.findWithAuthoritiesByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário", email));
         AuthenticatedUser principal = userLoader.toPrincipal(user);
         String token = jwtService.generateToken(principal);
         return new LoginResponse(token, "Bearer", jwtService.getExpirationSeconds(),

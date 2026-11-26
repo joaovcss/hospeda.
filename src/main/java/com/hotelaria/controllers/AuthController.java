@@ -1,6 +1,7 @@
 package com.hotelaria.controllers;
 
 import com.hotelaria.dtos.request.ChangePasswordRequest;
+import com.hotelaria.dtos.request.GuestCreateRequest;
 import com.hotelaria.dtos.request.LoginRequest;
 import com.hotelaria.dtos.response.AuthenticatedUserResponse;
 import com.hotelaria.dtos.response.LoginResponse;
@@ -9,12 +10,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,6 +37,15 @@ public class AuthController {
             description = "Público. Credenciais inválidas sempre retornam 401 com a mesma mensagem.")
     public LoginResponse login(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    @SecurityRequirements
+    @Operation(summary = "Auto-cadastro de hóspede e retorno do token JWT",
+            description = "Público. Cria um hóspede (ROLE_GUEST) e já devolve o token de acesso.")
+    public LoginResponse register(@Valid @RequestBody GuestCreateRequest request) {
+        return authService.register(request);
     }
 
     @GetMapping("/me")

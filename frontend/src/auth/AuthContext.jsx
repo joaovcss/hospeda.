@@ -28,15 +28,23 @@ export function AuthProvider({ children }) {
     return response.user;
   }, []);
 
+  const register = useCallback(async (data) => {
+    const response = await authApi.register(data);
+    session.setToken(response.accessToken);
+    setUser(response.user);
+    return response.user;
+  }, []);
+
   const value = useMemo(() => ({
     user,
     loading,
     login,
+    register,
     logout,
     isAdmin: user?.userType === 'ADMIN',
     isGuest: user?.userType === 'GUEST',
     can: (permission) => Boolean(user?.permissions?.includes(permission)),
-  }), [user, loading, login, logout]);
+  }), [user, loading, login, register, logout]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

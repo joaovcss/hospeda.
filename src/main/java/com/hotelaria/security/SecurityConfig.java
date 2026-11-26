@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(securityErrorWriter))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(PUBLIC_DOCS).permitAll()
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
