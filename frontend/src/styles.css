@@ -436,6 +436,95 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 14px 0; }
   .login-row { grid-template-columns: 1fr; }
 }
 
+/* ---------- Modo apresentação (projetor): telas internas maiores ----------
+   Escopo em .app: só afeta a área autenticada do sistema. A landing (.lp) e o
+   login (.login) ficam fora de .app e não mudam. Aplicado só a partir de 901px
+   (telas de apresentação), preservando o layout compacto no celular. */
+@media (min-width: 901px) {
+  .app { --sidebar: 268px; font-size: 16px; }
+  .app .content { padding: 28px 34px 42px; max-width: 1680px; }
+
+  /* Navegação lateral */
+  .app .brand-name { font-size: 28px; }
+  .app .nav-section { font-size: 12px; }
+  .app .nav-item { font-size: 16px; padding: 13px 14px; }
+  .app .nav-item svg { width: 22px; height: 22px; }
+  .app .nav-badge { font-size: 12.5px; }
+
+  /* Topo */
+  .app .topbar { height: 84px; }
+  .app .breadcrumb { font-size: 15px; }
+  .app .search { width: min(340px, 100%); }
+  .app .search input { font-size: 15px; }
+  .app .search kbd { font-size: 11px; }
+  .app .user-info strong { font-size: 15px; }
+  .app .user-info span { font-size: 12.5px; }
+  .app .dropdown { min-width: 262px; }
+  .app .dropdown button { font-size: 14.5px; }
+  .app .dropdown-head span { font-size: 13px; }
+
+  /* Cabeçalho da página */
+  .app .page-header h1 { font-size: 35px; }
+  .app .page-header p { font-size: 15.5px; }
+
+  /* Cards, indicadores e gráficos */
+  .app .card-title { font-size: 19px; }
+  .app .card-subtitle { font-size: 14px; }
+  .app .stat-head { font-size: 15px; }
+  .app .stat-value strong { font-size: 42px; }
+  .app .stat-value span { font-size: 14px; }
+  .app .stat-foot { font-size: 13.5px; }
+  .app .big-number strong { font-size: 42px; }
+  .app .big-number span { font-size: 14px; }
+  .app .legend-item { font-size: 14.5px; }
+  .app .legend-item b { font-size: 18px; }
+  .app .info-strip { font-size: 14px; }
+  .app .chart-axis { font-size: 12.5px; }
+  .app .chart-bar { font-size: 13.5px; }
+  .app .chart-label { font-size: 13px; }
+  .app .chart-note { font-size: 14.5px; }
+
+  /* Tabelas */
+  .app .table { font-size: 15px; }
+  .app .table th { font-size: 12.5px; padding: 14px 18px; }
+  .app .table td { padding: 15px 18px; }
+  .app .cell-stack span { font-size: 12.5px; }
+  .app .avatar-md { width: 40px; height: 40px; font-size: 13px; }
+
+  /* Abas */
+  .app .tab { font-size: 15.5px; }
+  .app .tab-count { font-size: 12.5px; }
+
+  /* Selos, botões e chips */
+  .app .badge { font-size: 13.5px; padding: 5px 12px; }
+  .app .btn-md { font-size: 15.5px; padding: 12px 20px; }
+  .app .btn-sm { font-size: 14px; padding: 7px 14px; }
+  .app .link-btn { font-size: 14.5px; }
+  .app .chip { font-size: 14.5px; }
+
+  /* Formulários e modais */
+  .app .field-label { font-size: 14px; }
+  .app .field-hint, .app .field-error { font-size: 12.5px; }
+  .app .input, .app .select, .app .textarea { font-size: 15.5px; padding: 11px 13px; }
+  .app .form-section { font-size: 13px; }
+  .app .alert { font-size: 14px; }
+  .app .modal-header h2 { font-size: 21px; }
+  .app .modal-header p { font-size: 14px; }
+  .app .modal-body { gap: 18px; }
+  .app .details dt { font-size: 12.5px; }
+  .app .details dd { font-size: 15px; }
+
+  /* Listas de tarefas, estados e páginas do hóspede */
+  .app .task-body strong { font-size: 14.5px; }
+  .app .task-body span { font-size: 13px; }
+  .app .state { font-size: 14px; }
+  .app .state strong { font-size: 15.5px; }
+  .app .stay-hero h2 { font-size: 30px; }
+  .app .room-tile strong { font-size: 19px; }
+  .app .room-option strong { font-size: 16px; }
+  .app .summary-box strong { font-size: 22px; }
+}
+
 /* ---------- Guest home ---------- */
 .stay-hero { background: var(--forest); color: #fff; border-color: var(--forest); display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
 .stay-hero h2 { font-size: 26px; font-weight: 500; }
