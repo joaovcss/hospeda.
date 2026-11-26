@@ -81,6 +81,7 @@ export async function fetchAll(listFn, params = {}) {
 
 export const authApi = {
   login: (login, password) => api.post('/api/auth/login', { login, password }),
+  register: (data) => api.post('/api/auth/register', data),
   me: () => api.get('/api/auth/me'),
   changePassword: (currentPassword, newPassword) => api.put('/api/auth/password', { currentPassword, newPassword }),
 };
